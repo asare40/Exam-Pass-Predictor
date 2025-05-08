@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Information - JAMB Score Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Model Information</h1>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/feature-analysis">Feature Analysis</a>
+        <a href="/about">About</a>
+        <a href="/model-info">Model Info</a>
+    </nav>
+    
+    <div class="model-info">
+        <h2>Random Forest Classifier</h2>
+        <p>This application uses a Random Forest Classifier to predict student performance on the JAMB examination. The model analyzes various features related to the student's background, academic history, and study habits to make predictions.</p>
+        
+        {% if importance_plot %}
+            <h3>Feature Importance</h3>
+            <p>The chart below shows the relative importance of each feature in making predictions:</p>
+            <img src="data:image/png;base64,{{ importance_plot }}" alt="Feature Importance Plot" style="max-width: 100%;">
+            
+            <h3>Feature Importance Ranking</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Importance</th>
+                </tr>
+                {% for feature, importance in feature_importances %}
+                <tr>
+                    <td>{{ feature }}</td>
+                    <td>{{ "%.4f"|format(importance) }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>Feature importance information is not available for this model.</p>
+        {% endif %}
+        
+        <h3>Model Usage</h3>
+        <p>To make a prediction:</p>
+        <ol>
+            <li>Go to the <a href="/">home page</a></li>
+            <li>Fill in the student information form</li>
+            <li>Click "Predict JAMB Score" to get the result</li>
+        </ol>
+        
+        <h3>Analyze Features</h3>
+        <p>To understand how specific factors affect JAMB performance, visit the <a href="/feature-analysis">Feature Analysis</a> page.</p>
+    </div>
+</body>
+</html>

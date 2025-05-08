@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JAMB Score Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>JAMB Score Prediction System For WAEC EXAM - Nigeria</h1>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/feature-analysis">Feature Analysis</a>
+        <a href="/about">About</a>
+        <a href="/model-info">Model Info</a>
+    </nav>
+    
+    {% if not model_loaded or not dataset_loaded %}
+        <div class="alert">
+            <p>System Status: 
+                {% if not model_loaded %}Model not loaded. {% endif %}
+                {% if not dataset_loaded %}Dataset not loaded. {% endif %}
+                Please <a href="/setup">run setup</a> to create sample data and model.
+            </p>
+        </div>
+    {% endif %}
+    
+    <div class="prediction-section">
+        <h2>Enter Student Information</h2>
+        <form action="/predict" method="post">
+            <h3>Personal Information</h3>
+            {% if 'Age' in numerical_features %}
+            <label for="Age">Age:</label>
+            <input type="number" id="Age" name="Age" min="16" max="25" required>
+            {% endif %}
+            
+            {% if 'Gender' in categorical_features %}
+            <label for="Gender">Gender:</label>
+            <select id="Gender" name="Gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            {% endif %}
+            
+            <h3>Academic Background</h3>
+            {% if 'School_Type' in categorical_features %}
+            <label for="School_Type">School Type:</label>
+            <select id="School_Type" name="School_Type" required>
+                <option value="Public">Public</option>
+                <option value="Private">Private</option>
+                <option value="Federal">Federal</option>
+            </select>
+            {% endif %}
+            
+            {% if 'Previous_Score' in numerical_features %}
+            <label for="Previous_Score">Previous Academic Score:</label>
+            <input type="number" id="Previous_Score" name="Previous_Score" min="0" max="100" required>
+            {% endif %}
+            
+            <h3>Study Habits</h3>
+            {% if 'Study_Hours' in numerical_features %}
+            <label for="Study_Hours">Daily Study Hours:</label>
+            <input type="number" id="Study_Hours" name="Study_Hours" min="0" max="24" step="0.5" required>
+            {% endif %}
+            
+            {% if 'Attendance_Rate' in numerical_features %}
+            <label for="Attendance_Rate">Attendance Rate (%):</label>
+            <input type="number" id="Attendance_Rate" name="Attendance_Rate" min="0" max="100" step="0.1" required>
+            {% endif %}
+            
+            <h3>Lifestyle Factors</h3>
+            {% if 'Sleep_Hours' in numerical_features %}
+            <label for="Sleep_Hours">Average Sleep Hours:</label>
+            <input type="number" id="Sleep_Hours" name="Sleep_Hours" min="0" max="12" step="0.5" required>
+            {% endif %}
+            
+            {% if 'Extracurricular' in categorical_features %}
+            <label for="Extracurricular">Extracurricular Activities:</label>
+            <select id="Extracurricular" name="Extracurricular" required>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            {% endif %}
+            
+            {% if 'Socioeconomic_Status' in categorical_features %}
+            <label for="Socioeconomic_Status">Socioeconomic Status:</label>
+            <select id="Socioeconomic_Status" name="Socioeconomic_Status" required>
+                <option value="Low">Low</option>
+                <option value="Middle">Middle</option>
+                <option value="High">High</option>
+            </select>
+            {% endif %}
+            
+            <button type="submit">Predict JAMB Score</button>
+        </form>
+    </div>
+    
+    <div class="feature-section">
+        <h2>Analyze Factors Affecting JAMB Scores</h2>
+        <p>Want to understand what factors have the biggest impact on JAMB scores? Click below to analyze specific features.</p>
+        <a href="/feature-analysis"><button>Go to Feature Analysis</button></a>
+    </div>
+</body>
+</html>

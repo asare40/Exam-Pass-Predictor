@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Setup - JAMB Score Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>System Setup</h1>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/feature-analysis">Feature Analysis</a>
+        <a href="/about">About</a>
+    </nav>
+    
+    <div class="container">
+        <h2>Setup Results</h2>
+        
+        <div class="result-container">
+            <h3>Dataset Setup</h3>
+            <p>{{ dataset_message }}</p>
+            
+            <h3>Model Setup</h3>
+            <p>{{ model_message }}</p>
+            
+            <p>Please <a href="/">return to the home page</a> to use the application.</p>
+            <p>Note: You may need to refresh the page for changes to take effect.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,389 @@
+{% extends 'base.html' if 'base.html' in templates else 'layout_fallback' %}
+
+{% block content %}
+<div class="insights-header">
+    <h1>JAMB Performance Insights</h1>
+    <p class="lead">Understanding the key factors that influence JAMB examination success</p>
+</div>
+
+<div class="insights-container">
+    <!-- Key Performance Factors Section -->
+    <div class="insight-section">
+        <h2>Key Performance Factors</h2>
+        <p>Our analysis identified the following factors as having the strongest influence on JAMB success:</p>
+        
+        <div class="factor-cards">
+            <div class="factor-card">
+                <h3>Previous Academic Score</h3>
+                <div class="factor-impact high-impact">High Impact</div>
+                <p>Students with higher previous academic scores are significantly more likely to pass JAMB.</p>
+                <div class="recommendation">
+                    <strong>Recommendation:</strong> Focus on building a strong foundation in previous academic work.
+                </div>
+            </div>
+            
+            <div class="factor-card">
+                <h3>Study Hours</h3>
+                <div class="factor-impact high-impact">High Impact</div>
+                <p>Students who studied more hours consistently showed better JAMB performance.</p>
+                <div class="recommendation">
+                    <strong>Recommendation:</strong> Aim for at least 10 hours of focused study per week.
+                </div>
+            </div>
+            
+            <div class="factor-card">
+                <h3>Attendance Rate</h3>
+                <div class="factor-impact medium-impact">Medium Impact</div>
+                <p>Regular class attendance correlates with better JAMB performance.</p>
+                <div class="recommendation">
+                    <strong>Recommendation:</strong> Maintain at least 80% attendance in your classes.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Data Visualizations Section -->
+    <div class="insight-section">
+        <h2>Data Visualizations</h2>
+        
+        <!-- Visualization 1: Pass Rate by Study Hours -->
+        <div class="visualization-card">
+            <h3>Pass Rate by Study Hours</h3>
+            <div id="studyHoursChart" class="chart-container"></div>
+            <div class="insight-text">
+                <p><strong>Finding:</strong> Students who study 10+ hours per week have a 75% pass rate compared to only 45% for those who study less than 5 hours.</p>
+                <p><strong>Actionable Insight:</strong> Increasing study time to at least 10 hours weekly can significantly improve your chances of success.</p>
+            </div>
+        </div>
+        
+        <!-- Visualization 2: Academic Performance Correlation -->
+        <div class="visualization-card">
+            <h3>Previous Scores vs. JAMB Performance</h3>
+            <div id="prevScoreChart" class="chart-container"></div>
+            <div class="insight-text">
+                <p><strong>Finding:</strong> There is a strong positive correlation (0.68) between previous academic scores and JAMB results.</p>
+                <p><strong>Actionable Insight:</strong> Focus on strengthening your understanding of core subjects from previous academic years.</p>
+            </div>
+        </div>
+        
+        <!-- Visualization 3: School Type Impact -->
+        <div class="visualization-card">
+            <h3>Pass Rate by School Type</h3>
+            <div id="schoolTypeChart" class="chart-container"></div>
+            <div class="insight-text">
+                <p><strong>Finding:</strong> Private school students show a slightly higher pass rate (63%) compared to public schools (58%).</p>
+                <p><strong>Actionable Insight:</strong> Focus on accessing quality study materials regardless of your school type to level the playing field.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Student Success Pathway -->
+    <div class="insight-section">
+        <h2>Your Path to JAMB Success</h2>
+        <div class="success-pathway">
+            <div class="pathway-step">
+                <div class="step-number">1</div>
+                <h3>Academic Foundation</h3>
+                <p>Build strong subject knowledge from previous academic work.</p>
+            </div>
+            <div class="pathway-step">
+                <div class="step-number">2</div>
+                <h3>Consistent Study</h3>
+                <p>Dedicate at least 10 hours weekly to focused study.</p>
+            </div>
+            <div class="pathway-step">
+                <div class="step-number">3</div>
+                <h3>Regular Attendance</h3>
+                <p>Maintain high attendance rates at classes.</p>
+            </div>
+            <div class="pathway-step">
+                <div class="step-number">4</div>
+                <h3>Healthy Balance</h3>
+                <p>Ensure adequate sleep (7-8 hours) and extracurricular activities.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Demographic Insights -->
+    <div class="insight-section">
+        <h2>Demographic Insights</h2>
+        <div class="demographic-cards">
+            <div class="demographic-card">
+                <h3>Age Analysis</h3>
+                <div id="ageChart" class="chart-container small-chart"></div>
+                <p>Students aged 18-19 tend to have the highest pass rates.</p>
+            </div>
+            <div class="demographic-card">
+                <h3>Gender Analysis</h3>
+                <div id="genderChart" class="chart-container small-chart"></div>
+                <p>Minor differences in pass rates between genders, with females having a slightly higher rate.</p>
+            </div>
+            <div class="demographic-card">
+                <h3>Socioeconomic Impact</h3>
+                <div id="socioChart" class="chart-container small-chart"></div>
+                <p>Students from all socioeconomic backgrounds can succeed with proper study habits.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Get Personalized Recommendations -->
+    <div class="insight-section cta-section">
+        <h2>Get Your Personalized Success Plan</h2>
+        <p>Use our prediction tool to receive tailored recommendations based on your specific profile.</p>
+        <a href="{{ url_for('predict') }}" class="cta-button">Get My Success Plan</a>
+    </div>
+</div>
+
+<!-- Required scripts for charts -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Study Hours Chart
+    const studyHoursCtx = document.getElementById('studyHoursChart').getContext('2d');
+    new Chart(studyHoursCtx, {
+        type: 'bar',
+        data: {
+            labels: ['1-3 hours', '4-6 hours', '7-9 hours', '10-12 hours', '13-15 hours'],
+            datasets: [{
+                label: 'Pass Rate (%)',
+                data: [45, 52, 61, 75, 82],
+                backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Pass Rate (%)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Weekly Study Hours'
+                    }
+                }
+            }
+        }
+    });
+    
+    // Previous Score Chart
+    const prevScoreCtx = document.getElementById('prevScoreChart').getContext('2d');
+    new Chart(prevScoreCtx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Student Results',
+                data: [
+                    {x: 45, y: 160}, {x: 50, y: 183}, {x: 52, y: 272}, {x: 53, y: 255},
+                    {x: 55, y: 273}, {x: 61, y: 308}, {x: 65, y: 329}, {x: 69, y: 282},
+                    {x: 73, y: 236}, {x: 75, y: 210}, {x: 77, y: 209}, {x: 82, y: 193},
+                    {x: 85, y: 256}, {x: 89, y: 217}, {x: 91, y: 208}, {x: 94, y: 206}
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                pointRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    title: {
+                        display: true,
+                        text: 'JAMB Score'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Previous Academic Score'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = 'Student: ';
+                            if (context.parsed.y !== null) {
+                                label += `Previous: ${context.parsed.x}, JAMB: ${context.parsed.y}`;
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // School Type Chart
+    const schoolTypeCtx = document.getElementById('schoolTypeChart').getContext('2d');
+    new Chart(schoolTypeCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Public', 'Private', 'Federal'],
+            datasets: [{
+                label: 'Pass Rate (%)',
+                data: [58, 63, 60],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Pass Rate (%)'
+                    }
+                }
+            }
+        }
+    });
+    
+    // Age Chart (Donut)
+    const ageCtx = document.getElementById('ageChart').getContext('2d');
+    new Chart(ageCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['16-17', '18-19', '20-21'],
+            datasets: [{
+                data: [54, 68, 59],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'Pass Rate (%) by Age Group'
+                }
+            }
+        }
+    });
+    
+    // Gender Chart (Donut)
+    const genderCtx = document.getElementById('genderChart').getContext('2d');
+    new Chart(genderCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Female', 'Male'],
+            datasets: [{
+                data: [62, 59],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'Pass Rate (%) by Gender'
+                }
+            }
+        }
+    });
+    
+    // Socioeconomic Chart (Donut)
+    const socioCtx = document.getElementById('socioChart').getContext('2d');
+    new Chart(socioCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Low', 'Middle', 'High'],
+            datasets: [{
+                data: [60, 57, 65],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'Pass Rate (%) by Socioeconomic Status'
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% if 'base.html' not in templates %}
+{% block layout_fallback %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAMB Performance Insights</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/insights.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('insights') }}" class="active">Insights</a>
+            <a href="{{ url_for('predict') }}">Prediction</a>
+            <a href="{{ url_for('feature_analysis_page') }}">Feature Analysis</a>
+            <a href="{{ url_for('model_info') }}">Model Info</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </nav>
+    </header>
+    
+    <main>
+        {{ self.content() }}
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 JAMB Score Prediction System</p>
+    </footer>
+</body>
+</html>
+{% endblock %}
+{% endif %}

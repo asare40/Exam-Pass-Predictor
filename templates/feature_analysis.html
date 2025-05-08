@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feature Analysis - JAMB Score Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .chart-explanation {
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .chart-insights {
+            margin-top: 20px;
+        }
+        .insight-item {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .insight-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .trend-positive, .trend-negative, .trend-neutral {
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .trend-positive {
+            background-color: #e7f5e7;
+            color: #2e7d32;
+        }
+        .trend-negative {
+            background-color: #ffeaea;
+            color: #c62828;
+        }
+        .trend-neutral {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Feature Analysis: {{ feature }}</h1>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/feature-analysis">Feature Analysis</a>
+        <a href="/about">About</a>
+    </nav>
+    
+    {% if plot_url %}
+        <div class="result-container">
+            <h2>Analysis Results</h2>
+            
+            {% if correlation_message %}
+                <p>{{ correlation_message }}</p>
+                
+                <!-- Additional explanation for correlation -->
+                <div class="chart-explanation">
+                    <h4>What does this correlation mean?</h4>
+                    <p>A correlation coefficient ranges from -1 to +1:</p>
+                    <ul>
+                        <li><strong>Positive correlation (0 to +1):</strong> As {{ feature }} increases, JAMB scores tend to increase</li>
+                        <li><strong>Negative correlation (-1 to 0):</strong> As {{ feature }} increases, JAMB scores tend to decrease</li>
+                        <li><strong>Zero correlation (near 0):</strong> No clear relationship between {{ feature }} and JAMB scores</li>
+                    </ul>
+                    <p>The magnitude indicates strength: values closer to +1 or -1 show stronger relationships, while values closer to 0 show weaker relationships.</p>
+                </div>
+            {% endif %}
+            
+            <h3>Visualization</h3>
+            <img src="data:image/png;base64,{{ plot_url }}" alt="Feature Analysis Plot" style="max-width: 100%;">
+            
+            <!-- Comprehensive chart explanation -->
+            <div class="chart-explanation">
+                <h4>Understanding this visualization</h4>
+                {% if feature in ['Age', 'Previous_Score', 'Study_Hours', 'Attendance_Rate', 'Sleep_Hours'] %}
+                    <p>This chart shows how {{ feature }} relates to JAMB exam performance:</p>
+                    <ul>
+                        <li>The <strong>horizontal axis (x-axis)</strong> represents different ranges of {{ feature }}</li>
+                        <li>The <strong>vertical axis (y-axis)</strong> shows the percentage of students who passed JAMB (scored ≥ 180)</li>
+                        <li>Each bar represents a specific range of {{ feature }} values and its corresponding pass rate</li>
+                    </ul>
+                    <p>The trend in the bars reveals how changes in {{ feature }} affect the likelihood of passing the JAMB exam.</p>
+                {% else %}
+                    <p>This chart shows how different categories of {{ feature }} relate to JAMB exam performance:</p>
+                    <ul>
+                        <li>The <strong>horizontal axis (x-axis)</strong> shows the different categories of {{ feature }}</li>
+                        <li>The <strong>vertical axis (y-axis)</strong> shows the percentage of students who passed JAMB (scored ≥ 180)</li>
+                        <li>Each bar represents a specific category and its corresponding pass rate</li>
+                    </ul>
+                    <p>The differences in bar heights reveal how various categories of {{ feature }} are associated with different pass rates.</p>
+                {% endif %}
+            </div>
+            
+            {% if pass_rate_message %}
+                <h3>Detailed Pass Rate Analysis</h3>
+                <p>{{ pass_rate_message|replace('\n', '<br>')|safe }}</p>
+                
+                <!-- Additional insights from pass rates -->
+                <div class="chart-insights">
+                    <h4>Key Insights:</h4>
+                    {% if feature in ['Age', 'Previous_Score', 'Study_Hours', 'Attendance_Rate', 'Sleep_Hours'] %}
+                        <div class="insight-item">
+                            <span class="trend-{% if correlation_message and 'correlation' in correlation_message and correlation_message.split(' ')[-1].strip('.') | float > 0.3 %}positive{% elif correlation_message and 'correlation' in correlation_message and correlation_message.split(' ')[-1].strip('.') | float < -0.3 %}negative{% else %}neutral{% endif %}">
+                                {% if correlation_message and 'correlation' in correlation_message and correlation_message.split(' ')[-1].strip('.') | float > 0.3 %}
+                                    Strong positive trend
+                                {% elif correlation_message and 'correlation' in correlation_message and correlation_message.split(' ')[-1].strip('.') | float < -0.3 %}
+                                    Strong negative trend
+                                {% else %}
+                                    Moderate or weak relationship
+                                {% endif %}
+                            </span> detected between {{ feature }} and JAMB performance
+                        </div>
+                        <div class="insight-item">
+                            Looking at the pass rate percentages, you can see 
+                            {% if correlation_message and 'correlation' in correlation_message and correlation_message.split(' ')[-1].strip('.') | float > 0.1 %}
+                                an upward trend as {{ feature }} increases
+                            {% elif correlation_message and 'correlation' in correlation_message and correlation_message.split(' ')[-1].strip('.') | float < -0.1 %}
+                                a downward trend as {{ feature }} increases
+                            {% else %}
+                                some variations, but no strong overall trend
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="insight-item">There are noticeable differences in pass rates between {{ feature }} categories</div>
+                        <div class="insight-item">The category with the highest pass rate might indicate an optimal condition for JAMB success</div>
+                    {% endif %}
+                    <div class="insight-item">These patterns are based on the dataset's sample and represent statistical associations, not guaranteed outcomes</div>
+                </div>
+            {% endif %}
+            
+            <h3>Recommendation</h3>
+            <p>{{ recommendation }}</p>
+            
+            <h3>Practical Applications</h3>
+            <div class="chart-explanation">
+                <p>Based on this analysis, here's how you can use these insights:</p>
+                <ul>
+                    {% if feature == 'Study_Hours' %}
+                        <li>Consider allocating more dedicated study time to JAMB preparation</li>
+                        <li>Focus on quality of study sessions, not just quantity</li>
+                        <li>Create a structured study schedule that optimizes your performance</li>
+                    {% elif feature == 'Previous_Score' %}
+                        <li>Identify gaps in your previous academic performance</li>
+                        <li>Focus on strengthening fundamental concepts from previous coursework</li>
+                        <li>Consider additional tutoring for subjects where you previously struggled</li>
+                    {% elif feature == 'Attendance_Rate' %}
+                        <li>Prioritize consistent class attendance</li>
+                        <li>If you miss classes, ensure you catch up on missed content</li>
+                        <li>Participate actively in classes to maximize learning benefits</li>
+                    {% elif feature == 'Sleep_Hours' %}
+                        <li>Maintain a consistent sleep schedule, especially before exams</li>
+                        <li>Aim for the optimal range of sleep hours shown in the data</li>
+                        <li>Avoid cramming at the expense of proper rest</li>
+                    {% elif feature == 'Age' %}
+                        <li>Understand that age is just one factor among many</li>
+                        <li>Focus on other controllable factors that can improve your performance</li>
+                    {% elif feature == 'Gender' %}
+                        <li>Gender differences are minimal - focus on study strategies instead</li>
+                        <li>Join study groups with diverse members to benefit from different perspectives</li>
+                    {% elif feature == 'School_Type' %}
+                        <li>Supplement your education with additional resources if needed</li>
+                        <li>Consider the strengths and weaknesses of your school type</li>
+                        <li>Connect with successful students from your school type for advice</li>
+                    {% elif feature == 'Extracurricular' %}
+                        <li>Balance extracurricular activities with academic priorities</li>
+                        <li>Consider how extracurricular activities might be enhancing or detracting from your studies</li>
+                    {% elif feature == 'Socioeconomic_Status' %}
+                        <li>Seek out free or affordable resources to supplement your learning</li>
+                        <li>Focus on effective study strategies that don't require expensive materials</li>
+                        <li>Connect with peer support networks for additional help</li>
+                    {% else %}
+                        <li>Consider how this factor influences your study habits</li>
+                        <li>Make adjustments based on the patterns shown in the data</li>
+                        <li>Focus on factors within your control that can improve your performance</li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+            <a href="/feature-analysis"><button>Analyze Another Feature</button></a>
+        </div>
+    {% else %}
+        <div class="error-container">
+            <p>Could not analyze the selected feature. Please try another feature.</p>
+            <a href="/feature-analysis"><button>Go Back</button></a>
+        </div>
+    {% endif %}
+</body>
+</html>

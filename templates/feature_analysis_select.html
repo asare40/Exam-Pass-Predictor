@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feature Analysis Selection - JAMB Score Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Feature Analysis</h1>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/feature-analysis">Feature Analysis</a>
+        <a href="/about">About</a>
+    </nav>
+    
+    <div class="container">
+        <p>Select a feature to analyze its impact on JAMB score performance. The analysis will show how this factor correlates with passing the JAMB examination.</p>
+        
+        <form action="/feature-analysis" method="post">
+            <label for="feature">Select Feature:</label>
+            <select id="feature" name="feature" required>
+                <optgroup label="Numerical Features">
+                    {% for feature in numerical_features %}
+                        <option value="{{ feature }}">{{ feature }}</option>
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="Categorical Features">
+                    {% for feature in categorical_features %}
+                        <option value="{{ feature }}">{{ feature }}</option>
+                    {% endfor %}
+                </optgroup>
+            </select>
+            
+            <button type="submit">Analyze Feature</button>
+        </form>
+    </div>
+</body>
+</html>

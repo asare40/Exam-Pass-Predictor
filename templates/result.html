@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result - JAMB Score Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>JAMB Score Prediction Result</h1>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/feature-analysis">Feature Analysis</a>
+        <a href="/about">About</a>
+    </nav>
+    
+    <div class="result-container">
+        <h2>Prediction: <span class="{{ prediction.lower() }}">{{ prediction }}</span></h2>
+        
+        <p>Based on the information provided, there is a <strong>{{ probability }}%</strong> probability that the student will pass the JAMB examination.</p>
+        
+        <div class="probability-bar">
+            <div class="probability-fill" 
+                 style="width: {{ probability }}%; background-color: {{ 'green' if probability >= 50 else 'red' }}">
+                {{ probability }}%
+            </div>
+        </div>
+        
+        {% if probability >= 80 %}
+            <p><strong>Great news!</strong> This student has a high likelihood of passing the JAMB examination.</p>
+        {% elif probability >= 50 %}
+            <p><strong>Good prospect!</strong> The student has a reasonable chance of passing, but could improve with targeted study.</p>
+        {% elif probability >= 30 %}
+            <p><strong>Needs improvement.</strong> The student should focus on studying more to increase their chances of passing.</p>
+        {% else %}
+            <p><strong>Significant improvement needed.</strong> The student should consider intensive preparation and possibly tutoring to improve their chances.</p>
+        {% endif %}
+    </div>
+    
+    <div class="student-data">
+        <h2>Student Information</h2>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>Value</th>
+            </tr>
+            {% for key, value in student_data.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    <a href="/"><button>Make Another Prediction</button></a>
+</body>
+</html>
