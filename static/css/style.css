@@ -1,0 +1,319 @@
+/* Main background styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e5e9f2 100%);
+    color: #333;
+}
+
+/* Navigation bar */
+nav {
+    background-color: #1e40af;
+    padding: 12px 0;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+nav a:hover {
+    background-color: #2563eb;
+}
+
+nav a.active {
+    background-color: #2563eb;
+}
+
+/* Headings */
+h1 {
+    color: #1e3a8a;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+}
+
+h2 {
+    color: #1e3a8a;
+    border-bottom: 2px solid #dbeafe;
+    padding-bottom: 8px;
+    margin-top: 30px;
+}
+
+h3 {
+    color: #2563eb;
+}
+
+/* Container elements */
+.container, .prediction-section, .result-container, .feature-section, .about-section, .model-info, .demographic-cards, .error-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 1000px;
+}
+
+/* Form elements */
+form {
+    margin: 20px 0;
+}
+
+label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: 500;
+    color: #2563eb;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f8fafc;
+}
+
+button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #1e40af;
+}
+
+/* Analysis cards and visualizations */
+.factor-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 25px 0;
+}
+
+.factor-card {
+    flex: 1;
+    min-width: 250px;
+    background-color: #f0f9ff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #2563eb;
+}
+
+.visualization-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 25px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.chart-container {
+    height: 300px;
+    margin: 20px auto;
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #eee;
+}
+
+.small-chart {
+    height: 200px;
+}
+
+/* Status indicators */
+.factor-impact {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 5px 0 10px;
+}
+
+.high-impact {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.medium-impact {
+    background-color: #fef9c3;
+    color: #854d0e;
+}
+
+/* Success pathway */
+.success-pathway {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 25px 0;
+    justify-content: center;
+}
+
+.pathway-step {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    padding: 20px;
+    background-color: #eff6ff;
+    border-radius: 8px;
+    position: relative;
+}
+
+.step-number {
+    background-color: #2563eb;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-weight: bold;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f1f5f9;
+    color: #1e3a8a;
+}
+
+/* Probability bar */
+.probability-bar {
+    background-color: #f1f5f9;
+    border-radius: 4px;
+    height: 30px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.probability-fill {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transition: width 1s ease-in-out;
+}
+
+/* Alert messages */
+.alert {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Pass/Fail indicators in results */
+.pass {
+    color: #16a34a;
+}
+
+.fail {
+    color: #dc2626;
+}
+
+/* Call to action section */
+.cta-section {
+    text-align: center;
+    background-color: #dbeafe;
+    padding: 30px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    padding: 12px 25px;
+    margin-top: 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #1e40af;
+}
+
+/* Insights header */
+.insights-header {
+    text-align: center;
+    padding: 30px 0;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-radius: 8px;
+}
+
+.insights-header h1 {
+    margin-top: 0;
+}
+
+.insights-header .lead {
+    font-size: 1.2em;
+    color: #1e40af;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+    background-color: #1e3a8a;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .factor-cards, .success-pathway, .demographic-cards {
+        flex-direction: column;
+    }
+    
+    .container, .prediction-section, .result-container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    nav a {
+        display: inline-block;
+        margin: 5px;
+    }
+}
